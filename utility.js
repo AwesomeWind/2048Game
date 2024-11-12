@@ -161,6 +161,27 @@ export function generateNewValue(matrix) {
 /**
  * 用来开始游戏的方法
  */
+export function startGame() { 
+  let col;
+  switch (document.body.getAttribute("data-difficulty-level")) {
+    case "easy":
+      col = 5;
+      break;
+    case "normal":
+      col = 4;
+      break;
+    case "hard":
+      col = 3;
+      break;
+    case "expert":
+      col = 6;
+      break;
+  }
+  let matrix = Array.from({ length: col }, () => Array.from({ length: col }, () => 0));
+  matrix = generateNewValue(matrix);
+  return matrix;
+}
+
 
 /**
  * 用来重置矩阵的方法

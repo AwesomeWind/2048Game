@@ -65,18 +65,18 @@ body[data-difficulty-level="expert"] .difficulty-level p[data-difficulty-level="
   font-weight: bold;
 }
 .block {
-  border-radius: 8px;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
   font-weight: 600;
   color: #fff;
-  aspect-ratio: 1 / 1;          /* 保证宽高比为 1:1 */
-  width: 100%;                  /* 宽度充满父容器的格子 */
-  min-width: 50px;              /* 设置最小宽度 */
-  min-height: 50px;             /* 设置最小高度 */
-  background-color: #8a0000; /* 默认背景颜色, for values greater than 2048 */
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  min-width: 50px;
+  min-height: 50px;
+  background-color: #8a0000;
 }
 
 /* 背景颜色 for 0 (空白块) */
@@ -134,10 +134,20 @@ body[data-difficulty-level="expert"] .difficulty-level p[data-difficulty-level="
   content: attr(data-number);
 }
 
+
+/* 移动端样式 */
+@media screen and (max-width: 768px) {
+}
+
+
+
+
 .content {
   display: grid;
-  border-radius: 4px;
-  background-color: #B6ADA6;
+  border-radius: 6px;
+  padding: 15px;
+  cursor: default;
+  background-color: #bbada0;
 }
 body[data-difficulty-level="expert"] .content {
   grid-template-columns: repeat(6, 1fr);
