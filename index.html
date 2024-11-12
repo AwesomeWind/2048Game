@@ -1,13 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2048 game</title>
-    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="./styles/index.css">
 </head>
-<body>
-    
-    <script src="./index.js"></script>
+
+<body data-difficulty-level="normal" music="on" data-page="home">
+    <div class="home">
+        <h1>2048</h1>
+        <div class="menu">
+            <button id="start">
+                <span lang="zh">开始游戏</span>
+                <span lang="en">Start Game</span>
+            </button>
+            <button data-difficulty-level="easy">
+                <span lang="zh">简单</span>
+                <span lang="en">Easy</span>
+            </button>
+            <button data-difficulty-level="normal">
+                <span lang="zh">普通</span>
+                <span lang="en">Normal</span>
+            </button>
+            <button data-difficulty-level="hard">
+                <span lang="zh">困难</span>
+                <span lang="en">Hard</span>
+            </button>
+            <button data-difficulty-level="expert">
+                <span lang="zh">专家</span>
+                <span lang="en">Expert</span>
+            </button>
+        </div>
+        <div class="settings">
+            <select id="language-switch" onchange="document.documentElement.lang=this.value">
+                <option value="zh">中文</option>
+                <option value="en">English</option>
+            </select>
+            <select id="music-switch" onchange="document.documentElement.body.setAttribute('music', this.value)">
+                <option value="on">开</option>
+                <option value="off">关</option>
+            </select>
+        </div>
+    </div>
+    <div  class="game">
+        <div class="header">
+            <div class="card difficulty-level">
+                <h1>2048</h1>
+                <p data-difficulty-level="easy">5 * 5</p>
+                <p data-difficulty-level="normal">4 * 4</p>
+                <p data-difficulty-level="hard">3 * 3</p>
+                <p data-difficulty-level="expert">6 * 6</p>
+            </div>
+            <div data-score-number="0" class="card score-number">
+                <h2>
+                    <span lang="zh">得分</span>
+                    <span lang="en">Score</span>
+                </h2>
+            </div>
+            <button id="restart" class="card" type="button">
+                <span lang="zh">重新开始</span>
+                <span lang="en">Restart</span>
+            </button>
+            <button id="back-to-home" class="card" type="button">
+                <span lang="zh">返回菜单</span>
+                <span lang="en">Back to Home</span>
+            </button>
+        </div>
+        <div class="content">
+            
+        </div>
+    </div>
+    <template id="block-template">
+        <div class="block" data-number="0">
+        </div>
+    </template>
+    <script src="./main.js"></script>
 </body>
+
 </html>

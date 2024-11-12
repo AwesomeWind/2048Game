@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+span[lang] {
+  display: none;
+}
+html:lang(zh) span:lang(zh),
+html:lang(en) span:lang(en) {
+  display: block;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+body > div {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.3s ease-in;
+  transition: opacity 0.5s ease-out;
+}
+
+body[data-page="home"] > .home,
+body[data-page="game"] > .game {
+  transform: scale(1);
+  opacity: 1;
+}
+.menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.difficulty-level {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.difficulty-level p {
+  display: none;
+}
+body[data-difficulty-level="easy"] .difficulty-level p[data-difficulty-level="easy"],
+body[data-difficulty-level="normal"] .difficulty-level p[data-difficulty-level="normal"],
+body[data-difficulty-level="hard"] .difficulty-level p[data-difficulty-level="hard"],
+body[data-difficulty-level="expert"] .difficulty-level p[data-difficulty-level="expert"] {
+  display: block;
+}
+.score-number::after {
+  content: attr(data-score-number);
+  font-size: 24px;
+  font-weight: bold;
+}
+.block {
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  aspect-ratio: 1 / 1;          /* 保证宽高比为 1:1 */
+  width: 100%;                  /* 宽度充满父容器的格子 */
+  min-width: 50px;              /* 设置最小宽度 */
+  min-height: 50px;             /* 设置最小高度 */
+  background-color: #8a0000; /* 默认背景颜色, for values greater than 2048 */
+}
+
+/* 背景颜色 for 0 (空白块) */
+.block[data-number="0"] {
+  background-color: #ccc;
+}
+
+/* 背景颜色 for specific values between 2 and 2048 */
+.block[data-number="2"] {
+  background-color: #eee;
+}
+
+.block[data-number="4"] {
+  background-color: #d8d8d8;
+}
+
+.block[data-number="8"] {
+  background-color: #f5b700;
+}
+
+.block[data-number="16"] {
+  background-color: #f38a00;
+}
+
+.block[data-number="32"] {
+  background-color: #f35f00;
+}
+
+.block[data-number="64"] {
+  background-color: #f34700;
+}
+
+.block[data-number="128"] {
+  background-color: #f23300;
+}
+
+.block[data-number="256"] {
+  background-color: #f12000;
+}
+
+.block[data-number="512"] {
+  background-color: #f01200;
+}
+
+.block[data-number="1024"] {
+  background-color: #e50000;
+}
+
+.block[data-number="2048"] {
+  background-color: #e20000;
+}
+
+/* 使用::after伪元素显示数字 */
+.block::after {
+  content: attr(data-number);
+}
+
+.content {
+  display: grid;
+  border-radius: 4px;
+  background-color: #B6ADA6;
+}
+body[data-difficulty-level="expert"] .content {
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+body[data-difficulty-level="easy"] .content {
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+body[data-difficulty-level="normal"] .content {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+body[data-difficulty-level="hard"] .content {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
