@@ -1,4 +1,4 @@
-import { generateNewValue, startGame, merge } from "./utility.js";
+import { generateNewValue, startGame, merge, calculateScore } from "./utility.js";
 
 const pageHomeNode = document.body.querySelector(".home");
 const pageGameNode = document.body.querySelector(".game");
@@ -18,10 +18,7 @@ let matrix;
     if (!buttonNode) return; // 如果不是 button，则返回，不做处理
 
     let difficultyLevel = buttonNode.getAttribute("data-difficulty-level");
-    if (
-      difficultyLevel &&
-      difficultyLevel !== document.body.getAttribute("data-difficulty-level")
-    ) {
+    if (difficultyLevel && difficultyLevel !== document.body.getAttribute("data-difficulty-level")) {
       document.body.setAttribute("data-difficulty-level", difficultyLevel);
     }
     document.body.setAttribute("data-page", "game");
@@ -53,9 +50,25 @@ function updateBlocksFromMatrix(matrix) {
   const blocks = gameContentNode.querySelectorAll(".block");
   const flatMatrix = matrix.flat(); // 将二维数组打平为一维数组
   flatMatrix.forEach((value, index) => {
-    blocks[index].setAttribute("data-number", value);
+    blocks[index].setAttribute("data-number", value || "");
   });
 }
+
+function updateScoreNumber(oldMatrix, newMatrix) {
+  const oldScore = scoreNumberNode.getAttribute("data-score-number");
+  const score = calculateScore(oldMatrix, newMatrix);
+  if (score) {
+    scoreNumberNode.setAttribute("data-score-number", +oldScore + score);
+    const pNode = document.createElement("p");
+    pNode.innerText = `+${score}`;
+    pNode.classList.add("score-animation");
+    pNode.addEventListener("animationend", () => {
+      pNode.remove();
+    });
+    scoreNumberNode.appendChild(pNode);
+  }
+}
+
 function generateBlocksFromMatrix(matrix) {
   while (gameContentNode.firstChild) {
     gameContentNode.removeChild(gameContentNode.firstChild);
@@ -64,7 +77,7 @@ function generateBlocksFromMatrix(matrix) {
     for (let j = 0; j < matrix[i].length; j++) {
       const blockNode = document.createElement("div");
       blockNode.className = "block";
-      blockNode.setAttribute("data-number", matrix[i][j]);
+      blockNode.setAttribute("data-number", matrix[i][j] || "");
       gameContentNode.appendChild(blockNode);
     }
   }
@@ -80,22 +93,30 @@ const debounce = (func, wait) => {
 };
 
 const matrixMoveUp = debounce(() => {
-  matrix = generateNewValue(merge(matrix, "up"));
+  const mergeMatrix = merge(matrix, "up");
+  updateScoreNumber(matrix, mergeMatrix);
+  matrix = generateNewValue(mergeMatrix);
   updateBlocksFromMatrix(matrix);
 }, TRANSITION_DURATION);
 
 const matrixMoveDown = debounce(() => {
-  matrix = generateNewValue(merge(matrix, "down"));
+  const mergeMatrix = merge(matrix, "down");
+  updateScoreNumber(matrix, mergeMatrix);
+  matrix = generateNewValue(mergeMatrix);
   updateBlocksFromMatrix(matrix);
 }, TRANSITION_DURATION);
 
 const matrixMoveLeft = debounce(() => {
-  matrix = generateNewValue(merge(matrix, "left"));
+  const mergeMatrix = merge(matrix, "left");
+  updateScoreNumber(matrix, mergeMatrix);
+  matrix = generateNewValue(mergeMatrix);
   updateBlocksFromMatrix(matrix);
 }, TRANSITION_DURATION);
 
 const matrixMoveRight = debounce(() => {
-  matrix = generateNewValue(merge(matrix, "right"));
+  const mergeMatrix = merge(matrix, "right");
+  updateScoreNumber(matrix, mergeMatrix);
+  matrix = generateNewValue(mergeMatrix);
   updateBlocksFromMatrix(matrix);
 }, TRANSITION_DURATION);
 

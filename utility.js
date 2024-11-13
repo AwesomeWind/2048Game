@@ -178,7 +178,7 @@ export function startGame() {
       break;
   }
   let matrix = Array.from({ length: col }, () => Array.from({ length: col }, () => 0));
-  matrix = generateNewValue(matrix);
+  matrix = generateNewValue(generateNewValue(matrix));
   return matrix;
 }
 
@@ -200,5 +200,51 @@ export function startGame() {
  */
 
 /**
- * 用来统计得分的方法
+ * 用来计算得分的方法
+ * @param {Array<Array<number>>} oldMatrix - 老矩阵
+ * @param {Array<Array<number>>} newMatrix - 新矩阵
+ * @returns {number} - 根据传入的两个矩阵合并后后得到的分数
  */
+export function calculateScore(oldMatrix, newMatrix) {
+  // 检查矩阵是否有效
+  if (!oldMatrix || !newMatrix) {
+    throw new Error("矩阵不能为空");
+  }
+  
+  // 检查矩阵维度是否一致
+  if (oldMatrix.length !== newMatrix.length || oldMatrix[0].length !== newMatrix[0].length) {
+    throw new Error("矩阵的维度必须相同");
+  }
+  
+  let score = 0;
+  let oldScoreMap=new Map();
+  oldMatrix.flat().forEach((value) => {
+    if(value>2){
+      if(!oldScoreMap.get(value)){
+        oldScoreMap.set(value, 1);
+      }else{
+        oldScoreMap.set(value, oldScoreMap.get(value)+1);
+      }
+    }
+  });
+  let newScoreMap=new Map();
+  newMatrix.flat().forEach((value) => {
+    if(value>2){
+      if(!newScoreMap.get(value)){
+        newScoreMap.set(value, 1);
+      }else{
+        newScoreMap.set(value, newScoreMap.get(value)+1);
+      }
+    }
+  });
+  newScoreMap.forEach((value, key) => {
+    if(oldScoreMap.get(key)){
+      if(value>oldScoreMap.get(key)){
+        score += (value-oldScoreMap.get(key))*key;
+      }
+    }else{
+      score += value*key;
+    }
+  })
+  return score;
+}
