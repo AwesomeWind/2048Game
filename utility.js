@@ -190,6 +190,25 @@ export function startGame() {
 /**
  * 用来判断游戏是否结束的方法
  */
+function isGameOver(matrix) {
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[i].length; j++) {
+      if (matrix[i][j] === 0) {
+        // 还有空位
+        return false;
+      }
+      if (i > 0 && matrix[i][j] === matrix[i - 1][j]) {
+        // 左侧有相同数字
+        return false;
+      }
+      if (j > 0 && matrix[i][j] === matrix[i][j - 1]) {
+        // 上侧有相同数字
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
 /**
  * 游戏失败后的回调

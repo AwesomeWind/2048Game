@@ -1,4 +1,9 @@
-import { generateNewValue, startGame, merge, calculateScore } from "./utility.js";
+import {
+  generateNewValue,
+  startGame,
+  merge,
+  calculateScore,
+} from "./utility.js";
 
 const pageHomeNode = document.body.querySelector(".home");
 const pageGameNode = document.body.querySelector(".game");
@@ -18,7 +23,10 @@ let matrix;
     if (!buttonNode) return; // 如果不是 button，则返回，不做处理
 
     let difficultyLevel = buttonNode.getAttribute("data-difficulty-level");
-    if (difficultyLevel && difficultyLevel !== document.body.getAttribute("data-difficulty-level")) {
+    if (
+      difficultyLevel &&
+      difficultyLevel !== document.body.getAttribute("data-difficulty-level")
+    ) {
       document.body.setAttribute("data-difficulty-level", difficultyLevel);
     }
     document.body.setAttribute("data-page", "game");
@@ -83,11 +91,14 @@ function generateBlocksFromMatrix(matrix) {
   }
 }
 const debounce = (func, wait) => {
-  let timeout;
-  return (...args) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      func.apply(this, args);
+  let timer;
+  return function (...args) {
+    if (!timer) {
+      func.apply(this, args); // 第一次立即执行
+    }
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      timer = null; // 清除计时器
     }, wait);
   };
 };

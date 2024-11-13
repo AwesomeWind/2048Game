@@ -164,13 +164,13 @@ body[data-difficulty-level="expert"] .difficulty-level p[data-difficulty-level="
 .block[data-number="1024"] {
   background: #f33a18; /* 更深的橙色 */
   color: #f9f6f2; /* 白色字体 */
-  font-size: 0.625rem;
+  font-size: 0.75rem;
 }
 
 .block[data-number="2048"] {
   background: #f21b00; /* 红色，最大值 */
   color: #f9f6f2; /* 白色字体 */
-  font-size: 0.625rem;
+  font-size: 0.75rem;
 }
 
 /* 使用::after伪元素显示数字 */
@@ -202,11 +202,13 @@ body[data-difficulty-level="expert"] .difficulty-level p[data-difficulty-level="
 
 .content {
   display: grid;
+  position: relative;
   border-radius: 6px;
   padding: 15px;
   cursor: default;
   background: #bbada0;
 }
+
 body[data-difficulty-level="expert"] .content {
   grid-template-columns: repeat(6, 1fr);
   gap: 8px;
@@ -234,4 +236,21 @@ body[data-difficulty-level="hard"] .content {
    transform: translateY(-20px);
    opacity: 0;
  }
+}
+.game-over {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+}
+.game-over:hidden{
+  display: none;
+}
+.game-over span{
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: #f9f6f2;
 }
