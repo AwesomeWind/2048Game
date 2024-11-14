@@ -1,10 +1,12 @@
 import {
   generateNewValue,
-  startGame,
   merge,
   calculateScore,
+  isGameOver,
 } from "./utility.js";
 
+const gameOverTemplate = document.body.querySelector("#game-over-template");
+const blockTemplate = document.body.querySelector("#block-template");
 const pageHomeNode = document.body.querySelector(".home");
 const pageGameNode = document.body.querySelector(".game");
 const headerMenuNode = document.querySelector(".header");
@@ -48,7 +50,39 @@ let matrix;
   });
 })();
 
+/**
+ * 游戏失败后的回调
+ */
+function gameOver() {
+  unregisterEvent();
+  const gameOverNode = document.importNode(gameOverTemplate.content, true);
+  gameContentNode.appendChild(gameOverNode);
+}
+/**
+ * 用来开始游戏的方法
+ */
+ function startGame() { 
+  let col;
+  switch (document.body.getAttribute("data-difficulty-level")) {
+    case "easy":
+      col = 5;
+      break;
+    case "normal":
+      col = 4;
+      break;
+    case "hard":
+      col = 3;
+      break;
+    case "expert":
+      col = 6;
+      break;
+  }
+  let matrix = Array.from({ length: col }, () => Array.from({ length: col }, () => 0));
+  matrix = generateNewValue(generateNewValue(matrix));
+  return matrix;
+}
 function restartGame() {
+  scoreNumberNode.setAttribute("data-score-number", 0);
   unregisterEvent();
   matrix = startGame();
   generateBlocksFromMatrix(matrix);
@@ -83,8 +117,9 @@ function generateBlocksFromMatrix(matrix) {
   }
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[i].length; j++) {
-      const blockNode = document.createElement("div");
-      blockNode.className = "block";
+      
+      const clone = document.importNode(blockTemplate.content, true)
+      const blockNode =clone.querySelector(".block");
       blockNode.setAttribute("data-number", matrix[i][j] || "");
       gameContentNode.appendChild(blockNode);
     }
@@ -106,6 +141,10 @@ const debounce = (func, wait) => {
 const matrixMoveUp = debounce(() => {
   const mergeMatrix = merge(matrix, "up");
   updateScoreNumber(matrix, mergeMatrix);
+  if(isGameOver(mergeMatrix)){
+    gameOver();
+    return;
+  }
   matrix = generateNewValue(mergeMatrix);
   updateBlocksFromMatrix(matrix);
 }, TRANSITION_DURATION);
@@ -113,6 +152,10 @@ const matrixMoveUp = debounce(() => {
 const matrixMoveDown = debounce(() => {
   const mergeMatrix = merge(matrix, "down");
   updateScoreNumber(matrix, mergeMatrix);
+  if(isGameOver(mergeMatrix)){
+    gameOver();
+    return;
+  }
   matrix = generateNewValue(mergeMatrix);
   updateBlocksFromMatrix(matrix);
 }, TRANSITION_DURATION);
@@ -120,6 +163,10 @@ const matrixMoveDown = debounce(() => {
 const matrixMoveLeft = debounce(() => {
   const mergeMatrix = merge(matrix, "left");
   updateScoreNumber(matrix, mergeMatrix);
+  if(isGameOver(mergeMatrix)){
+    gameOver();
+    return;
+  }
   matrix = generateNewValue(mergeMatrix);
   updateBlocksFromMatrix(matrix);
 }, TRANSITION_DURATION);
@@ -127,6 +174,10 @@ const matrixMoveLeft = debounce(() => {
 const matrixMoveRight = debounce(() => {
   const mergeMatrix = merge(matrix, "right");
   updateScoreNumber(matrix, mergeMatrix);
+  if(isGameOver(mergeMatrix)){
+    gameOver();
+    return;
+  }
   matrix = generateNewValue(mergeMatrix);
   updateBlocksFromMatrix(matrix);
 }, TRANSITION_DURATION);
@@ -217,6 +268,10 @@ function endMove(event) {
   }
   window.removeEventListener("mouseup", handleMouseUp);
   moveEndLocation = endLocation;
+  //如果起始和终点的坐标相距<= 5，则不进行任何操作
+  if (Math.abs(moveEndLocation.x - moveStartLocation.x) < 5 && Math.abs(moveEndLocation.y - moveStartLocation.y) < 5) {
+    return;
+  }
   const direction = getDirection(moveStartLocation, moveEndLocation);
   handleMarginMatrix(direction);
 }

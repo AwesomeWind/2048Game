@@ -130,6 +130,7 @@ export function rotateMatrix(matrix, angle) {
 
 /**
  * 根据2048规则，在传入的矩阵中随机一个空位置生成一个新数字
+ * 生成的数字是2或4，概率为9:1
  * @param {Array<Array>} matrix
  * @return {Array<Array>} - 更新后的矩阵
  */
@@ -158,39 +159,13 @@ export function generateNewValue(matrix) {
   return matrix;
 }
 
-/**
- * 用来开始游戏的方法
- */
-export function startGame() { 
-  let col;
-  switch (document.body.getAttribute("data-difficulty-level")) {
-    case "easy":
-      col = 5;
-      break;
-    case "normal":
-      col = 4;
-      break;
-    case "hard":
-      col = 3;
-      break;
-    case "expert":
-      col = 6;
-      break;
-  }
-  let matrix = Array.from({ length: col }, () => Array.from({ length: col }, () => 0));
-  matrix = generateNewValue(generateNewValue(matrix));
-  return matrix;
-}
 
 
-/**
- * 用来重置矩阵的方法
- */
 
 /**
  * 用来判断游戏是否结束的方法
  */
-function isGameOver(matrix) {
+export function isGameOver(matrix) {
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[i].length; j++) {
       if (matrix[i][j] === 0) {
@@ -209,14 +184,6 @@ function isGameOver(matrix) {
   }
   return true;
 }
-
-/**
- * 游戏失败后的回调
- */
-
-/**
- * 游戏目标达成后的回调
- */
 
 /**
  * 用来计算得分的方法

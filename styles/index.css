@@ -58,6 +58,7 @@ body[data-page="game"] > .game {
 }
 
 .difficulty-level {
+  font-size: 1em;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -101,20 +102,19 @@ body[data-difficulty-level="expert"] .difficulty-level p[data-difficulty-level="
 
 /* 背景颜色 for  (空白块) */
 .block[data-number=""] {
-  font-size: 1rem;
   background: rgba(238, 228, 218, 0.35);
   box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
 }
 
 .block[data-number="2"] {
-  font-size: 1rem;
+  font-size: 2rem;
   color: #776e65;
   background: #eee4da;
   box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
 }
 
 .block[data-number="4"] {
-  font-size: 1rem;
+  font-size: 2rem;
   background: #ede0c8;
   box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
 }
@@ -122,55 +122,55 @@ body[data-difficulty-level="expert"] .difficulty-level p[data-difficulty-level="
 .block[data-number="8"] {
   background: #f2b179;
   color: #f9f6f2;
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 .block[data-number="16"] {
   color: #f9f6f2;
   background: #f59563;
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 .block[data-number="32"] {
   color: #f9f6f2;
   background: #f67c5f;
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 .block[data-number="64"] {
   background: #f75d3b; /* 深橙色 */
   color: #f9f6f2; /* 白色字体 */
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 .block[data-number="128"] {
   background: #f75128; /* 更深的橙色 */
   color: #f9f6f2; /* 白色字体 */
-  font-size: 0.875rem;
+  font-size: 1.875rem;
 }
 
 .block[data-number="256"] {
   background: #f65e1e; /* 另一种深橙色 */
   color: #f9f6f2; /* 白色字体 */
-  font-size: 0.875rem;
+  font-size: 1.875rem;
 }
 
 .block[data-number="512"] {
   background: #f44e1f; /* 更深的橙色 */
   color: #f9f6f2; /* 白色字体 */
-  font-size: 0.875rem;
+  font-size: 1.875rem;
 }
 
 .block[data-number="1024"] {
   background: #f33a18; /* 更深的橙色 */
   color: #f9f6f2; /* 白色字体 */
-  font-size: 0.75rem;
+  font-size: 1.75rem;
 }
 
 .block[data-number="2048"] {
   background: #f21b00; /* 红色，最大值 */
   color: #f9f6f2; /* 白色字体 */
-  font-size: 0.75rem;
+  font-size: 1.75rem;
 }
 
 /* 使用::after伪元素显示数字 */
@@ -195,8 +195,8 @@ body[data-difficulty-level="expert"] .difficulty-level p[data-difficulty-level="
     font-size: 18px;  /* 大屏幕下的字体大小 */
   }
   .block {
-    min-width: 60px;  /* 大屏幕下的最小宽度 */
-    min-height: 60px;  /* 大屏幕下的最小高度 */
+    min-width: 80px;  /* 大屏幕下的最小宽度 */
+    min-height: 80px;  /* 大屏幕下的最小高度 */
   }
 }
 
@@ -238,8 +238,11 @@ body[data-difficulty-level="hard"] .content {
  }
 }
 .game-over {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
